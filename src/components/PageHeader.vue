@@ -18,7 +18,9 @@
       <span class="version"> Cesium.Version:{{ Cesium.VERSION }}</span>
       <span class="version">SuperMapVersion:{{ Cesium.SuperMapVersion }}</span>
       <a-button type="link" @click="goHome">
-        <a href=""><GithubOutlined class="github" /></a>
+        <a href="https://github.com/GerhardYang/supermap-monaco"
+          ><GithubOutlined class="github"
+        /></a>
       </a-button>
     </span>
   </div>
