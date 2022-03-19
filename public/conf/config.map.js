@@ -2,7 +2,7 @@
  * @Author: 杨光辉(GerhardYang)
  * @Date: 2022-03-13 22:25:35
  * @LastEditors: 杨光辉(GerhardYang)
- * @LastEditTime: 2022-03-19 21:19:07
+ * @LastEditTime: 2022-03-20 00:30:45
  * @Description: file contentconst
  * @Copyright: 超图软件华中平台客户中心 (SuperMap Software Co., Ltd. -Central China Platform)
  */
@@ -22,10 +22,10 @@ window.supermap_config.map = {
       detail: "使用WMTS方式加载天地图在线地图",
     },
     {
-      name: "WMTS加载天地图",
+      name: "加载MVT矢量瓦片",
       url: "./demos/map/MVTmap.html",
       imgSrc: "./imgs/map/MVTmap.png",
-      detail: "使用WMTS方式加载天地图在线地图",
+      detail: "加载iServer发布的MVT矢量瓦片",
     },
   ],
 };
