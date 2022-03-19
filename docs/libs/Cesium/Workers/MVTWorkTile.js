@@ -20,7 +20,7 @@
  * Portions licensed separately.
  * See https://github.com/CesiumGS/cesium/blob/master/LICENSE.md for full licensing details.
  */
-define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9e6', './pbf-9fe59c76'], function (when, createTaskProcessorWorker, earcut2_2_1, pbf) { 'use strict';
+define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9e6', './pbf-9fe59c76'], function (when, createTaskProcessorWorker, earcut2_2_1, pbf) {
 
     function DictionaryCoder(strings) {
         this._stringToNumber = {};
@@ -65,7 +65,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         var offset = 0;
         var maxSize = 0;
         var layoutMembers = members.map(function (member) {
-            //assert_1(member.name.length);
             var typeSize = sizeOf(member.type);
             var memberOffset = offset = align(offset, Math.max(alignment, typeSize));
             var components = member.components || 1;
@@ -231,7 +230,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         var srcData = srcImg.data;
         var dstData = dstImg.data;
 
-        //assert_1(srcData !== dstData);
 
         for (var y = 0; y < size.height; y++) {
             var srcOffset = ((srcPt.y + y) * srcImg.width + srcPt.x) * channels;
@@ -710,9 +708,9 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         };
     }
 
-    function toString$2(type) {
+    function toString$1(type) {
         if (type.kind === 'array') {
-            var itemType = toString$2(type.itemType);
+            var itemType = toString$1(type.itemType);
             return typeof type.N === 'number' ?
                 ("array<" + itemType + ", " + (type.N) + ">") :
                 type.itemType.kind === 'value' ? 'array' : ("array<" + itemType + ">");
@@ -760,7 +758,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             }
         }
 
-        return ("Expected " + (toString$2(expected)) + " but found " + (toString$2(t)) + " instead.");
+        return ("Expected " + (toString$1(expected)) + " but found " + (toString$1(t)) + " instead.");
     }
 
     var Collator = function Collator(caseSensitive       , diacriticSensitive       , locale             ) {
@@ -984,7 +982,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
 
             return array$1(itemType || ValueType$1, length);
         } else {
-            assert_1(typeof value === 'object');
             return ObjectType$1;
         }
     };
@@ -1065,7 +1062,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
 
             type = array$2(itemType, N);
         } else {
-            assert_1(types[name], name);
             type = types[name];
         }
 
@@ -1092,7 +1088,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             }
         }
 
-        assert_1(false);
         return null;
     };
 
@@ -1236,7 +1231,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             return null;
         }
 
-        assert_1(outputType);
         return new Case((outputType ), branches, otherwise);
     };
 
@@ -1314,7 +1308,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             outputType = outputType || parsed.type;
             parsedArgs.push(parsed);
         }
-        assert_1(outputType);
 
         // Above, we parse arguments without inferred type annotation so that
         // they don't produce a runtime error for `null` input, which would
@@ -1410,7 +1403,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         }
 
         var name = (args[0] );
-        assert_1(types$1[name], name);
 
         if ((name === 'to-boolean' || name === 'to-string') && args.length !== 2) {
             return context.error("Expected one argument.");
@@ -1479,11 +1471,11 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         } else if (this.type.kind === 'formatted') {
             // There is no explicit 'to-formatted' but this coercion can be implicitly
             // created by properties that expect the 'formatted' type.
-            return Formatted.fromString(toString$1(this.args[0].evaluate(ctx)));
+            return Formatted.fromString(Values$1.toString$1(this.args[0].evaluate(ctx)));
         } else if (this.type.kind === 'resolvedImage') {
-            return ResolvedImage.fromString(toString$1(this.args[0].evaluate(ctx)));
+            return ResolvedImage$1.fromString(Values$1.toString$1(this.args[0].evaluate(ctx)));
         } else {
-            return toString$1(this.args[0].evaluate(ctx));
+            return Values$1.toString$1(this.args[0].evaluate(ctx));
         }
     };
 
@@ -2503,10 +2495,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             // Same as Color
             return this.value.serialize();
         } else {
-            assert_1(this.value === null ||
-                typeof this.value === 'string' ||
-                typeof this.value === 'number' ||
-                typeof this.value === 'boolean');
             return (this.value );
         }
     };
@@ -2592,8 +2580,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         if (!otherwise) {
             return null;
         }
-
-        assert_1(inputType && outputType);
 
         if (input.type.kind !== 'value' && context.concat(1).checkSubtype((inputType ), input.type)) {
             return null;
@@ -3161,6 +3147,9 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
                         continue;
                     }
                     var property = (input     )[key];
+                    if(typeof property == "function") {
+                        continue;
+                    }
                     properties[key] = registry[name].shallow.indexOf(key) >= 0 ?
                         property :
                         WebWorkerTransfer.serialize(property, transferables);
@@ -3452,7 +3441,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
      * deserialization.
      */
     StructArray.serialize = function serialize(array, transferables) {
-        //assert_1(!array.isTransferred);
         if(array.isTransferred){
             console.log("StructArray array.isTransferred.");
         }
@@ -3504,7 +3492,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
      * @param {number} n The new size of the array.
      */
     StructArray.prototype.resize = function resize(n) {
-        //assert_1(!this.isTransferred);
         this.reserve(n);
         this.length = n;
     };
@@ -3632,7 +3619,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
     };
 
     FeaturePositionMap.prototype.getPositions = function getPositions(id) {
-        //assert_1(this.indexed);
 
         // binary search for the first occurrence of id in this.ids;
         // relies on ids/positions being sorted by id, which happens in serialization
@@ -4740,6 +4726,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             'text-halo-color': ['halo_color'],
             'icon-halo-color': ['halo_color'],
             'text-halo-blur': ['halo_blur'],
+            'text-show-background': ['show-background'],
             'icon-halo-blur': ['halo_blur'],
             'text-halo-width': ['halo_width'],
             'icon-halo-width': ['halo_width'],
@@ -7795,7 +7782,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
      * deserialization.
      */
     StructArray$1.serialize = function serialize (array, transferables) {
-        //assert_1(!array.isTransferred);
         if(array.isTransferred){
             console.log("StructArray array.isTransferred.");
         }
@@ -7847,7 +7833,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
      * @param {number} n The new size of the array.
      */
     StructArray$1.prototype.resize = function resize (n      ) {
-        //assert_1(!this.isTransferred);
         this.reserve(n);
         this.length = n;
     };
@@ -7954,7 +7939,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         FeatureIndexArray.prototype.constructor = FeatureIndexArray;
 
         FeatureIndexArray.prototype.get = function get (index        )                     {
-            //assert_1(!this.isTransferred);
             return new FeatureIndexStruct(this, index);
         };
 
@@ -9129,6 +9113,8 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         return cached;
     };
 
+    WebWorkerTransfer.register('EvaluationContext', EvaluationContext);
+
     function isConstant() {
     }
 
@@ -9465,8 +9451,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             }
         }
 
-        //assert_1(!signatureContext || signatureContext.errors.length > 0);
-
         if (overloads.length === 1) {
             (ref$1 = context.errors).push.apply(ref$1, signatureContext.errors);
         } else {
@@ -9496,12 +9480,13 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
     };
 
     CompoundExpression.register = function register(registry, definitions) {
-        //assert_1(!CompoundExpression.definitions);
         CompoundExpression.definitions = definitions;
         for (var name in definitions) {
             registry[name] = CompoundExpression;
         }
     };
+
+    WebWorkerTransfer.register('CompoundExpression', CompoundExpression);
 
     function stringifySignature(signature) {
         if (Array.isArray(signature)) {
@@ -10515,7 +10500,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
 
     ParsingContext.CompoundExpression = CompoundExpression;
 
-    var StyleExpression$1 = function StyleExpression(expression, propertySpec) {
+    var StyleExpression = function StyleExpression(expression, propertySpec) {
         this.expression = expression;
         this._warningHistory = {};
         this._evaluator = new EvaluationContext();
@@ -10523,7 +10508,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         this._enumValues = propertySpec && propertySpec.type === 'enum' ? propertySpec.values : null;
     };
 
-    StyleExpression$1.prototype.evaluateWithoutErrorHandling = function evaluateWithoutErrorHandling(globals, feature, featureState, availableImages, formattedSection) {
+    StyleExpression.prototype.evaluateWithoutErrorHandling = function evaluateWithoutErrorHandling(globals, feature, featureState, availableImages, formattedSection) {
         this._evaluator.globals = globals;
         this._evaluator.feature = feature;
         this._evaluator.featureState = featureState;
@@ -10533,7 +10518,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         return this.expression.evaluate(this._evaluator);
     };
 
-    StyleExpression$1.prototype.evaluate = function evaluate(globals, feature, featureState, availableImages, formattedSection) {
+    StyleExpression.prototype.evaluate = function evaluate(globals, feature, featureState, availableImages, formattedSection) {
         this._evaluator.globals = globals;
         this._evaluator.feature = feature || null;
         this._evaluator.featureState = featureState || null;
@@ -10563,6 +10548,8 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         }
     };
 
+    WebWorkerTransfer.register('StyleExpression', StyleExpression);
+
     function isFunction(value) {
         return typeof value === 'object' && value !== null && !Array.isArray(value);
     }
@@ -10581,6 +10568,135 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             return spec.default;
         }
     }
+
+    // Constants
+    var Xn = 0.950470, // D65 standard referent
+        Yn = 1,
+        Zn = 1.088830,
+        t0 = 4 / 29,
+        t1 = 6 / 29,
+        t2 = 3 * t1 * t1,
+        t3 = t1 * t1 * t1,
+        deg2rad = Math.PI / 180,
+        rad2deg = 180 / Math.PI;
+
+    // Utilities
+    function xyz2lab(t) {
+        return t > t3 ? Math.pow(t, 1 / 3) : t / t2 + t0;
+    }
+
+    function lab2xyz(t) {
+        return t > t1 ? t * t * t : t2 * (t - t0);
+    }
+
+    function xyz2rgb(x) {
+        return 255 * (x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055);
+    }
+
+    function rgb2xyz(x) {
+        x /= 255;
+        return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+    }
+
+    // LAB
+    function rgbToLab(rgbColor) {
+        var b = rgb2xyz(rgbColor.r),
+            a = rgb2xyz(rgbColor.g),
+            l = rgb2xyz(rgbColor.b),
+            x = xyz2lab((0.4124564 * b + 0.3575761 * a + 0.1804375 * l) / Xn),
+            y = xyz2lab((0.2126729 * b + 0.7151522 * a + 0.0721750 * l) / Yn),
+            z = xyz2lab((0.0193339 * b + 0.1191920 * a + 0.9503041 * l) / Zn);
+
+        return {
+            l: 116 * y - 16,
+            a: 500 * (x - y),
+            b: 200 * (y - z),
+            alpha: rgbColor.a
+        };
+    }
+
+    function labToRgb(labColor) {
+        var y = (labColor.l + 16) / 116,
+            x = isNaN(labColor.a) ? y : y + labColor.a / 500,
+            z = isNaN(labColor.b) ? y : y - labColor.b / 200;
+        y = Yn * lab2xyz(y);
+        x = Xn * lab2xyz(x);
+        z = Zn * lab2xyz(z);
+        return new Color(
+            xyz2rgb(3.2404542 * x - 1.5371385 * y - 0.4985314 * z), // D65 -> sRGB
+            xyz2rgb(-0.9692660 * x + 1.8760108 * y + 0.0415560 * z),
+            xyz2rgb(0.0556434 * x - 0.2040259 * y + 1.0572252 * z),
+            labColor.alpha
+        );
+    }
+
+    function interpolateLab(from, to, t) {
+        return {
+            l: number(from.l, to.l, t),
+            a: number(from.a, to.a, t),
+            b: number(from.b, to.b, t),
+            alpha: number(from.alpha, to.alpha, t)
+        };
+    }
+
+    // HCL
+    function rgbToHcl(rgbColor) {
+        var ref = rgbToLab(rgbColor);
+        var l = ref.l;
+        var a = ref.a;
+        var b = ref.b;
+        var h = Math.atan2(b, a) * rad2deg;
+        return {
+            h: h < 0 ? h + 360 : h,
+            c: Math.sqrt(a * a + b * b),
+            l: l,
+            alpha: rgbColor.a
+        };
+    }
+
+    function hclToRgb(hclColor) {
+        var h = hclColor.h * deg2rad,
+            c = hclColor.c,
+            l = hclColor.l;
+        return labToRgb({
+            l: l,
+            a: Math.cos(h) * c,
+            b: Math.sin(h) * c,
+            alpha: hclColor.alpha
+        });
+    }
+
+    function interpolateHue(a, b, t) {
+        var d = b - a;
+        return a + t * (d > 180 || d < -180 ? d - 360 * Math.round(d / 360) : d);
+    }
+
+    function interpolateHcl(from, to, t) {
+        return {
+            h: interpolateHue(from.h, to.h, t),
+            c: number(from.c, to.c, t),
+            l: number(from.l, to.l, t),
+            alpha: number(from.alpha, to.alpha, t)
+        };
+    }
+
+    var lab$1 = {
+        forward: rgbToLab,
+        reverse: labToRgb,
+        interpolate: interpolateLab
+    };
+
+    var hcl$1 = {
+        forward: rgbToHcl,
+        reverse: hclToRgb,
+        interpolate: interpolateHcl
+    };
+
+    var colorSpaces = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        lab: lab$1,
+        hcl: hcl$1
+    });
 
     function Expression() {
     }
@@ -10642,7 +10758,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         }
 
         expression.eachChild((child) => {
-            const childResult = findZoomCurve(child);
+            var childResult = findZoomCurve(child);
             if (childResult instanceof ParsingError) {
                 result = childResult;
             } else if (!result && childResult) {
@@ -10680,16 +10796,19 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             propertySpec && propertySpec.type === 'string' ? {typeAnnotation: 'coerce'} : undefined);
 
         if (!parsed) {
-            //assert_1(parser.errors.length > 0);
             return error(parser.errors);
         }
 
-        return success(new StyleExpression$1(parsed, propertySpec));
+        return success(new StyleExpression(parsed, propertySpec));
     };
 
 
     function isFunction$1(value) {
         return typeof value === 'object' && value !== null && !Array.isArray(value);
+    }
+
+    function identityFunction(x) {
+        return x;
     }
 
     function extend$1(output) {
@@ -10704,6 +10823,48 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             }
         }
         return output;
+    }
+
+    function evaluateExponentialFunction(parameters, propertySpec, input) {
+        var base = parameters.base !== undefined ? parameters.base : 1;
+
+        // Edge cases
+        if (getType(input) !== 'number') return coalesce(parameters.default, propertySpec.default);
+        var n = parameters.stops.length;
+        if (n === 1) return parameters.stops[0][1];
+        if (input <= parameters.stops[0][0]) return parameters.stops[0][1];
+        if (input >= parameters.stops[n - 1][0]) return parameters.stops[n - 1][1];
+
+        var index = findStopLessThanOrEqualTo$1(parameters.stops.map((stop) => stop[0]), input);
+        var t = interpolationFactor(
+            input, base,
+            parameters.stops[index][0],
+            parameters.stops[index + 1][0]);
+
+        var outputLower = parameters.stops[index][1];
+        var outputUpper = parameters.stops[index + 1][1];
+        var interp = interpolate[propertySpec.type] || identityFunction; // eslint-disable-line import/namespace
+
+        if (parameters.colorSpace && parameters.colorSpace !== 'rgb') {
+            var colorspace = colorSpaces[parameters.colorSpace]; // eslint-disable-line import/namespace
+            interp = (a, b) => colorspace.reverse(colorspace.interpolate(colorspace.forward(a), colorspace.forward(b), t));
+        }
+
+        if (typeof outputLower.evaluate === 'function') {
+            return {
+                evaluate(...args) {
+                    var evaluatedLower = outputLower.evaluate.apply(undefined, args);
+                    var evaluatedUpper = outputUpper.evaluate.apply(undefined, args);
+                    // Special case for fill-outline-color, which has no spec default.
+                    if (evaluatedLower === undefined || evaluatedUpper === undefined) {
+                        return undefined;
+                    }
+                    return interp(evaluatedLower, evaluatedUpper, t);
+                }
+            };
+        }
+
+        return interp(outputLower, outputUpper, t);
     }
 
     function evaluateIdentityFunction(parameters, propertySpec, input) {
@@ -10731,24 +10892,26 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             return error(parser.errors);
         }
 
-        return success(new StyleExpression$1(parsed, propertySpec));
+        return success(new StyleExpression(parsed, propertySpec));
     }
 
-    function ZoomConstantExpression$1(kind, expression) {
+    function ZoomConstantExpression(kind, expression) {
         this.kind = kind;
         this._styleExpression = expression;
         this.isStateDependent = kind !== ('constant') && !isConstant.isStateConstant(expression.expression);
     }
 
-    ZoomConstantExpression$1.prototype.evaluateWithoutErrorHandling = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
+    ZoomConstantExpression.prototype.evaluateWithoutErrorHandling = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
         return this._styleExpression.evaluateWithoutErrorHandling(globals, feature, featureState, canonical, availableImages, formattedSection);
     };
 
-    ZoomConstantExpression$1.prototype.evaluate = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
+    ZoomConstantExpression.prototype.evaluate = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
         return this._styleExpression.evaluate(globals, feature, featureState, canonical, availableImages, formattedSection);
     };
 
-    function ZoomDependentExpression$1(kind, expression, zoomStops, interpolationType) {
+    WebWorkerTransfer.register('ZoomConstantExpression', ZoomConstantExpression);
+
+    function ZoomDependentExpression(kind, expression, zoomStops, interpolationType) {
         this.kind = kind;
         this.zoomStops = zoomStops;
         this._styleExpression = expression;
@@ -10756,21 +10919,23 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         this.interpolationType = interpolationType;
     }
 
-    ZoomDependentExpression$1.prototype.evaluateWithoutErrorHandling = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
+    ZoomDependentExpression.prototype.evaluateWithoutErrorHandling = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
         return this._styleExpression.evaluateWithoutErrorHandling(globals, feature, featureState, canonical, availableImages, formattedSection);
     };
 
-    ZoomDependentExpression$1.prototype.evaluate = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
+    ZoomDependentExpression.prototype.evaluate = function(globals, feature, featureState, canonical, availableImages, formattedSection) {
         return this._styleExpression.evaluate(globals, feature, featureState, canonical, availableImages, formattedSection);
     };
 
-    ZoomDependentExpression$1.prototype.interpolationFactor = function(input, lower, upper) {
+    ZoomDependentExpression.prototype.interpolationFactor = function(input, lower, upper) {
         if (this.interpolationType) {
             return Interpolate.interpolationFactor(this.interpolationType, input, lower, upper);
         } else {
             return 0;
         }
     };
+
+    WebWorkerTransfer.register('ZoomDependentExpression', ZoomDependentExpression);
 
     function createPropertyExpression(expression, propertySpec) {
         expression = createExpression(expression, propertySpec);
@@ -10801,15 +10966,15 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
 
         if (!zoomCurve) {
             return success(isFeatureConstant ?
-                new ZoomConstantExpression$1('constant', expression.value) :
-                new ZoomConstantExpression$1('source', expression.value));
+                new ZoomConstantExpression('constant', expression.value) :
+                new ZoomConstantExpression('source', expression.value));
         }
 
         var interpolationType = zoomCurve instanceof Interpolate ? zoomCurve.interpolation : undefined;
 
         return success(isFeatureConstant ?
-            new ZoomDependentExpression$1('camera', expression.value, zoomCurve.labels, interpolationType) :
-        new ZoomDependentExpression$1('composite', expression.value, zoomCurve.labels, interpolationType));
+            new ZoomDependentExpression('camera', expression.value, zoomCurve.labels, interpolationType) :
+        new ZoomDependentExpression('composite', expression.value, zoomCurve.labels, interpolationType));
     }
 
     function createFunction(parameters, propertySpec) {
@@ -10817,7 +10982,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         var zoomAndFeatureDependent = parameters.stops && typeof parameters.stops[0][0] === 'object';
         var featureDependent = zoomAndFeatureDependent || parameters.property !== undefined;
         var zoomDependent = zoomAndFeatureDependent || !featureDependent;
-        var type = parameters.type || (supportsInterpolation(propertySpec) ? 'exponential' : 'interval');
+        var type = parameters.type || (Supports.supportsInterpolation(propertySpec) ? 'exponential' : 'interval');
 
         if (isColor) {
             parameters = extend$1({}, parameters);
@@ -10945,6 +11110,19 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         if (c !== undefined) return c;
     }
 
+    function interpolationFactor(input, base, lowerValue, upperValue) {
+        var difference = upperValue - lowerValue;
+        var progress = input - lowerValue;
+
+        if (difference === 0) {
+            return 0;
+        } else if (base === 1) {
+            return progress / difference;
+        } else {
+            return (Math.pow(base, progress) - 1) / (Math.pow(base, difference) - 1);
+        }
+    }
+
     // serialization wrapper for old-style stop functions normalized to the
     // expression interface
     var StylePropertyFunction = function StylePropertyFunction(parameters, specification) {
@@ -10991,6 +11169,22 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             };
         }
     };
+
+    function getType(val) {
+        if (val instanceof Number) {
+            return 'number';
+        } else if (val instanceof String) {
+            return 'string';
+        } else if (val instanceof Boolean) {
+            return 'boolean';
+        } else if (Array.isArray(val)) {
+            return 'array';
+        } else if (val === null) {
+            return 'null';
+        } else {
+            return typeof val;
+        }
+    }
 
     function featureFilter() {
     }
@@ -11691,7 +11885,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
     };
 
     DataConstantProperty.prototype.possiblyEvaluate = function possiblyEvaluate(value, parameters) {
-        //assert_1(!value.isDataDriven());
         return value.expression.evaluate(parameters);
     };
 
@@ -14968,6 +15161,18 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             },
             "property-type": "data-driven"
         },
+        "text-show-background": {
+            type: "boolean",
+            "default": false,
+            transition: false,
+            expression: {
+                interpolated: false,
+                parameters: [
+                    "zoom"
+                ]
+            },
+            "property-type": "data-constant"
+        },
         "text-halo-blur": {
             type: "number",
             "default": 0,
@@ -16009,7 +16214,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
             var constant = value.expression.evaluate(parameters, (null   ), {}, availableImages);
             return this._calculate(constant, constant, constant, parameters);
         } else {
-            //assert_1(!value.isDataDriven());
             return this._calculate(
                 value.expression.evaluate(new EvaluationParameters(Math.floor(parameters.zoom - 1.0), parameters)),
                 value.expression.evaluate(new EvaluationParameters(Math.floor(parameters.zoom), parameters)),
@@ -16731,9 +16935,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
     };
 
     Shaping.fitIconToText = function(shapedIcon, shapedText, textFit, padding, iconOffset, fontScale){
-    //        assert_1(textFit !== 'none');
-    //        assert_1(Array.isArray(padding) && padding.length === 4);
-    //        assert_1(Array.isArray(iconOffset) && iconOffset.length === 2);
 
         var image = shapedIcon.image;
 
@@ -18395,6 +18596,7 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         "text-halo-color": new DataDrivenProperty(StyleSpec["paint_symbol"]["text-halo-color"]),
         "text-halo-width": new DataDrivenProperty(StyleSpec["paint_symbol"]["text-halo-width"]),
         "text-halo-blur": new DataDrivenProperty(StyleSpec["paint_symbol"]["text-halo-blur"]),
+        "text-show-background": new DataDrivenProperty(StyleSpec["paint_symbol"]["text-show-background"]),
         "text-translate": new DataConstantProperty(StyleSpec["paint_symbol"]["text-translate"]),
         "text-translate-anchor": new DataConstantProperty(StyleSpec["paint_symbol"]["text-translate-anchor"])
     });
@@ -18481,7 +18683,6 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
         };
 
         SymbolStyleLayer.prototype.queryIntersectsFeature = function queryIntersectsFeature() {
-            assert_1(false); // Should take a different path in FeatureIndex
             return false;
         };
 
@@ -18494,16 +18695,9 @@ define(['./when-8d13db60', './createTaskProcessorWorker', './earcut-2.2.1-b404d9
                 }
                 var overriden = this.paint.get(overridable);
                 var override = new FormatSectionOverride(overriden);
-                var styleExpression = new StyleExpression(override, overriden.property.specification);
+                // var styleExpression = new StyleExpression(override, overriden.property.specification);
                 var expression = null;
-                if (overriden.value.kind === 'constant' || overriden.value.kind === 'source') {
-                    expression = (new ZoomConstantExpression('source', styleExpression)                  );
-                } else {
-                    expression = (new ZoomDependentExpression('composite',
-                        styleExpression,
-                        overriden.value.zoomStops,
-                        overriden.value._interpolationType)                     );
-                }
+                if (overriden.value.kind === 'constant' || overriden.value.kind === 'source') ;
                 this.paint._values[overridable] = new PossiblyEvaluatedPropertyValue(overriden.property,
                     expression,
                     overriden.parameters);

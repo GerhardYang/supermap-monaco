@@ -1,0 +1,141 @@
+<!--
+ * @Author: 杨光辉(GerhardYang)
+ * @Date: 2022-03-13 16:14:40
+ * @LastEditors: 杨光辉(GerhardYang)
+ * @LastEditTime: 2022-03-19 20:37:50
+ * @Description: file content
+ * @Copyright: 超图软件华中平台客户中心 (SuperMap Software Co., Ltd. -Central China Platform)
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./libs/Cesium/Widgets/widgets.css" />
+    <script src="./libs/Cesium/Cesium.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #cesiumContainer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+  </body>
+  <script>
+    let viewer = new Cesium.Viewer("cesiumContainer");
+
+    let imageryLayers = viewer.imageryLayers;
+
+    //天地图URL配置
+    let TDTURL_CONFIG = {
+      TDT_IMG_W:
+        "https://{s}.tianditu.gov.cn/img_w/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default&format=tiles&tk=自己的申请的tk", //在线天地图影像服务地址(墨卡托投影)
+      TDT_VEC_W:
+        "https://{s}.tianditu.gov.cn/vec_w/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=vec&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default&format=tiles&tk=自己的申请的tk", //在线天地图矢量地图服务(墨卡托投影)
+      TDT_CIA_W:
+        "https://{s}.tianditu.gov.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default.jpg&tk=自己的申请的tk", //在线天地图影像中文标记服务(墨卡托投影)
+      TDT_CVA_W:
+        "https://{s}.tianditu.gov.cn/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default.jpg&tk=自己的申请的tk", //在线天地图矢量中文标记服务(墨卡托投影)
+      TDT_IMG_C:
+        "https://{s}.tianditu.gov.cn/img_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=img&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default&format=tiles&tk=自己的申请的tk", //在线天地图影像服务地址(经纬度)
+      TDT_VEC_C:
+        "https://{s}.tianditu.gov.cn/vec_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=vec&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default&format=tiles&tk=c3eec6ca025f3324e22a47545b25c6c8", //在线天地图矢量地图服务(经纬度)
+      TDT_CIA_C:
+        "https://{s}.tianditu.gov.cn/cia_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=cia&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default&format=tiles&tk=自己的申请的tk", //在线天地图影像中文标记服务(经纬度)
+      TDT_CVA_C:
+        "https://{s}.tianditu.gov.cn/cva_c/wmts?service=wmts&request=GetTile&version=1.0.0" +
+        "&LAYER=cva&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
+        "&style=default&format=tiles&tk=c3eec6ca025f3324e22a47545b25c6c8", //在线天地图矢量中文标记服务(经纬度)
+    };
+
+    let tdt_vec = new Cesium.WebMapTileServiceImageryProvider({
+      url: TDTURL_CONFIG.TDT_VEC_C,
+      format: "tiles",
+      style: "default",
+      layer: "vec",
+      tileMatrixSetID: "c",
+      subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+      show: false,
+      tilingScheme: new Cesium.GeographicTilingScheme(),
+      tileMatrixLabels: [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+      ],
+    });
+    imageryLayers.addImageryProvider(tdt_vec);
+
+    let tdt_cva = new Cesium.WebMapTileServiceImageryProvider({
+      url: TDTURL_CONFIG.TDT_CVA_C,
+      format: "tiles",
+      style: "default",
+      layer: "cva",
+      tileMatrixSetID: "c",
+      subdomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+      show: false,
+      tilingScheme: new Cesium.GeographicTilingScheme(),
+      tileMatrixLabels: [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+      ],
+    });
+    imageryLayers.addImageryProvider(tdt_cva);
+  </script>
+</html>

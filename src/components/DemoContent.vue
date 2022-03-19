@@ -2,7 +2,7 @@
  * @Author: 杨光辉(GerhardYang)
  * @Date: 2022-03-12 23:14:00
  * @LastEditors: 杨光辉(GerhardYang)
- * @LastEditTime: 2022-03-13 23:15:31
+ * @LastEditTime: 2022-03-19 19:43:15
  * @Description: file content
  * @Copyright: 超图软件华中平台客户中心 (SuperMap Software Co., Ltd. -Central China Platform)
 -->
@@ -56,12 +56,13 @@ export default {
 <style scoped lang="less">
 .main-content {
   margin-top: 80px;
+  padding: 0 30px;
 }
 .demo {
   margin-bottom: 20px;
 }
 .demo-card {
-  width: 240px;
+  width: 300px;
   margin: 0 auto;
 }
 </style>
