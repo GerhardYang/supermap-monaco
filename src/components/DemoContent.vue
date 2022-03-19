@@ -2,7 +2,7 @@
  * @Author: 杨光辉(GerhardYang)
  * @Date: 2022-03-12 23:14:00
  * @LastEditors: 杨光辉(GerhardYang)
- * @LastEditTime: 2022-03-19 19:43:15
+ * @LastEditTime: 2022-03-20 00:01:06
  * @Description: file content
  * @Copyright: 超图软件华中平台客户中心 (SuperMap Software Co., Ltd. -Central China Platform)
 -->
@@ -13,7 +13,11 @@
       <a-row type="flex" justify="start">
         <a-col
           class="demo"
-          :span="4"
+          :xs="24"
+          :sm="12"
+          :md="8"
+          :lg="6"
+          :xl="4"
           v-for="(item, index) in item.demos"
           :key="index"
         >
